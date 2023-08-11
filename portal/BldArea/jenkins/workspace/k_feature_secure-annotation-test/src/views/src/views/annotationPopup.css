@@ -1,0 +1,856 @@
+/*
+ NortonLifeLock copyright header start
+
+ Copyright (c) 2021 NortonLifeLock Inc. All rights reserved.
+
+ THIS SOFTWARE CONTAINS CONFIDENTIAL INFORMATION AND TRADE SECRETS OF NORTONLIFELOCK
+ INC.  USE, DISCLOSURE OR REPRODUCTION IS PROHIBITED WITHOUT THE PRIOR
+ EXPRESS WRITTEN PERMISSION OF NORTONLIFELOCK INC.
+
+ The Licensed Software and Documentation are deemed to be commercial computer
+ software as defined in FAR 12.212 and subject to restricted rights as defined
+ in FAR Section 52.227-19 "Commercial Computer Software - Restricted Rights"
+ and DFARS 227.7202, "Rights in Commercial Computer Software or Commercial
+ Computer Software Documentation", as applicable, and any successor regulations.
+ Any use, modification, reproduction release, performance, display or disclosure
+ of the Licensed Software and Documentation by the U.S. Government shall be
+ solely in accordance with the terms of this Agreement.
+
+ NortonLifeLock copyright header stop
+*/
+
+@font-face {
+  font-family: 'Inter';
+  src: url('../../fonts/Inter-Regular.otf') format("truetype");
+  font-style: normal;
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'Inter-Medium';
+  src: url('../../fonts/Inter-Medium.otf') format("truetype");
+  font-style: normal;
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: 'Inter-SemiBold';
+  src: url('../../fonts/Inter-SemiBold.otf') format("truetype");
+  font-style: normal;
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: 'Inter-Bold';
+  src: url('../../fonts/Inter-Bold.otf') format("truetype");
+  font-style: normal;
+  font-weight: 700;
+}
+
+:root {
+  --popup-width: 390px;
+  --popup-height: 174px;
+  --popup-arrow-size: 20px;
+}
+
+.popup-area
+{
+  max-height: var(--popup-height);
+  max-width: var(--popup-width);
+  min-height: var(--popup-height);
+  min-width: var(--popup-width);
+  margin:0;
+  cursor: default;
+  position: fixed;
+  z-index: 9999;
+}
+
+.popup-arrow
+{
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+.popup-arrow-middle-left
+{
+  border-top: 25px solid transparent;
+  border-bottom: 25px solid transparent;
+  left: calc( -1 * var(--popup-arrow-size) );
+  top: calc( (var(--popup-height) / 2) - var(--popup-arrow-size)) ;
+  margin-top: -5px;
+  margin-left: 2px;
+}
+
+.popup-area[dir="rtl"] .popup-arrow-middle-left
+{
+  left: calc( 1 * var(--popup-arrow-size) );
+  margin-right: 2px;
+}
+
+.popup-arrow-bottom-left, .popup-arrow-bottom-middle
+{
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  left: calc( var(--popup-width) - (2 * var(--popup-arrow-size)) );
+  top: calc( -1 * var(--popup-arrow-size) );
+}
+
+.popup-arrow-bottom-middle
+{
+  left: calc( (var(--popup-width)/2) - var(--popup-arrow-size) - 8px);
+}
+
+.popup-area[dir="rtl"] .popup-arrow-bottom-left
+{
+  right: calc( var(--popup-width) - (2 * var(--popup-arrow-size)) );
+}
+
+.popup-arrow-bottom-right
+{
+  border-bottom: 20px solid transparent;
+  border-top: 20px solid transparent;
+  left: calc( -1 * var(--popup-arrow-size) );
+  top: 2px;
+}
+
+.popup-area[dir="rtl"] .popup-arrow-bottom-right
+{
+  left: calc( 1 * var(--popup-arrow-size) );
+}
+
+.popup-arrow-top-right
+{
+  border-bottom: 20px solid transparent;
+  border-right: 20px solid #eaeaee;
+  border-top: 20px solid transparent;
+  left: calc( -1 * var(--popup-arrow-size) );
+  top: calc( var(--popup-height) - (var(--popup-arrow-size)*2) )
+}
+
+.popup-arrow-top-right-rtl
+{
+  border-bottom: 20px solid transparent;
+  border-left: 20px solid #eaeaee;
+  border-top: 20px solid transparent;
+  left: calc( 1 * var(--popup-arrow-size) );
+  top: calc( var(--popup-height) - (var(--popup-arrow-size)*2) )
+}
+
+.popup-arrow-top-left, .popup-arrow-top-middle
+{
+  border-left: 20px solid transparent;
+  border-top: 20px solid #eaeaee;
+  border-right: 20px solid transparent;
+  left: calc( var(--popup-width) - (var(--popup-arrow-size)*2) );
+  top: var(--popup-height);
+}
+
+.popup-arrow-top-middle
+{
+  left: calc( (var(--popup-width)/2) - var(--popup-arrow-size) - 8px );
+}
+
+.popup-area[dir="rtl"] .popup-arrow-top-left
+{
+  right: calc( var(--popup-width) - (var(--popup-arrow-size)*2) );
+}
+
+
+/* ************ MIDDLE LEFT ARROW ************* */
+
+.pop-arrow-middle-left-border-color-Safe {
+  border-right: 20px solid #007644;
+}
+
+.pop-arrow-middle-right-border-color-Safe {
+  border-left: 20px solid #007644;
+}
+
+.pop-arrow-middle-left-border-color-Caution, .pop-arrow-middle-left-border-color-Suspicious {
+  border-right: 20px solid #B85C00;
+}
+
+.pop-arrow-middle-right-border-color-Caution, .pop-arrow-middle-right-border-color-Suspicious {
+  border-left: 20px solid #B85C00;
+}
+
+.pop-arrow-middle-left-border-color-Warning {
+  border-right: 20px solid #c81a00;
+}
+
+.pop-arrow-middle-right-border-color-Warning {
+  border-left: 20px solid #c81a00;
+}
+
+
+.pop-arrow-middle-left-border-color-Untested {
+  border-right: 20px solid #808080;
+}
+
+.pop-arrow-middle-right-border-color-Untested {
+  border-left: 20px solid #808080;
+}
+
+/* ************ BOTTOM LEFT ARROW ************* */
+
+.pop-arrow-bottom-left-border-color-Safe {
+  border-bottom: 20px solid #007644;
+}
+
+.pop-arrow-bottom-left-border-color-Caution, .pop-arrow-bottom-left-border-color-Suspicious {
+  border-bottom: 20px solid #B85C00;
+}
+
+.pop-arrow-bottom-left-border-color-Warning {
+  border-bottom: 20px solid #c81a00;
+}
+
+.pop-arrow-bottom-left-border-color-Untested {
+  border-bottom: 20px solid #808080;
+}
+
+/* ************ BOTTOM RIGHT ARROW ************* */
+
+.pop-arrow-bottom-right-border-color-Safe {
+  border-right: 20px solid #007644;
+}
+
+.pop-arrow-bottom-right-border-color-rtl-Safe {
+  border-left: 20px solid #007644;
+}
+
+.pop-arrow-bottom-right-border-color-Caution, .pop-arrow-bottom-right-border-color-Suspicious {
+  border-right: 20px solid #B85C00;
+}
+
+.pop-arrow-bottom-right-border-color-rtl-Caution, .pop-arrow-bottom-right-border-color-rtl-Suspicious {
+  border-left: 20px solid #B85C00;
+}
+
+.pop-arrow-bottom-right-border-color-Warning {
+  border-right: 20px solid #c81a00;
+}
+
+.pop-arrow-bottom-right-border-color-rtl-Warning {
+  border-left: 20px solid #c81a00;
+}
+
+.pop-arrow-bottom-right-border-color-Untested {
+  border-right: 20px solid #808080;
+}
+
+.pop-arrow-bottom-right-border-color-rtl-Untested {
+  border-left: 20px solid #808080;
+}
+
+/* ************************* */
+.icon-container {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+html[dir="rtl"] .icon-container {
+  vertical-align: unset;
+}
+
+div.content-area .status
+{
+    height:120px;
+    width:390px;
+    margin:0 px;
+    background-color: #007644;
+    background-size: 406px 140px;
+    background-repeat:no-repeat;
+    display: block;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+}
+
+.threats
+{
+  height:44px;
+  width:390px;
+  font-family: Segoe UI, Helvetica Neue, Lucida Sans Unicode, sans-serif;
+}
+
+.popup-area .bottom
+{
+  margin: 0px 1px 1px 0px;
+  width: 390px;
+  height: 54px;
+  background-color: #ffffff;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border-top: 1px solid #DADADA;
+}
+
+/*Site name*/
+.domain-div
+{
+  width: 252px;
+  height: 16px;
+  font-family: 'Inter-Medium';
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: -0.3px;
+  color: #FFFFFF;
+  padding: 20px 10px 12px 20px;
+}
+
+.popup-area[dir="rtl"] .domain-div {
+  padding: 16px 20px 30px 40px;
+}
+
+.popup-area[dir="rtl"] .bottom
+{
+  text-align: right;
+}
+
+span.domain
+{
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow:hidden;
+    display: block;
+    height: 18px;
+}
+
+.popup-area[dir="rtl"] span.domain
+{
+  text-align: right;
+  direction: ltr;
+}
+
+.status-row
+{
+  height: 36px;
+  width:252px;
+  margin: 4px 10px 24px 20px;
+}
+
+.popup-area[dir="rtl"] .status-row
+{
+  margin: 4px 20px 41px 40px;
+}
+
+div.status-wrapper
+{
+    text-align:left;
+    width: 252px;
+    height: 36px;
+    line-height: 1;
+}
+
+span.result-span-safe,
+span.result-span-unsafe,
+span.result-span-secure,
+span.result-span-caution,
+span.result-span-suspicious,
+span.result-span-untested
+{
+    font-family: 'Inter-SemiBold';
+    font-size: 36px;
+    line-height: 44px;
+    letter-spacing: -0.3px;
+    color: #FFFFFF;
+    position:relative;
+    display:block;
+    float:left;
+}
+
+.popup-area[dir="rtl"] span.result-span-safe,
+.popup-area[dir="rtl"] span.result-span-unsafe,
+.popup-area[dir="rtl"] span.result-span-secure,
+.popup-area[dir="rtl"] span.result-span-caution,
+.popup-area[dir="rtl"] span.result-span-suspicious,
+.popup-area[dir="rtl"] span.result-span-untested
+{
+  float: right;
+}
+
+span.status-image
+{
+    height:72px;
+    width:72px;
+    background-image:url('../../images/ic-safe.svg');
+    background-size: 72px 72px;
+    background-repeat:no-repeat;
+    position:relative;
+    display:block;
+    float:right;
+    margin: 22px 32px 26px 5px;
+}
+
+.popup-area[dir="rtl"] span.status-image
+{
+  float: left;
+  margin: 30px 30px 30px 24px;
+}
+
+div.total-threat-label
+{
+    font-size:14px;
+    color:#FFFFFF;
+    display:inline-flex;
+    text-align:left;
+    line-height: 1;
+
+}
+
+div#untestedText
+{
+  display:none;
+}
+
+span.threat-count
+{
+    font-size:14px;
+    color:#FFFFFF;
+    display:inline-flex;
+    text-align:left;
+}
+
+.threats-label-row
+{
+  width: 342px;
+  height: 14px;
+  padding-top: 15px;
+  padding-left: 24px;
+}
+
+.popup-area[dir="rtl"] .threats-label-row
+{
+  padding-right: 24px;
+}
+
+#ThreatsCountRow
+{
+    height: 25px;
+    display:flex;
+    clear:both;
+    margin-bottom: 22px;
+}
+
+#nortonLogo
+{
+    background-image: url("../../images/norton-hr-logo.svg");
+    background-repeat: no-repeat;
+    width: 105px;
+    height: 24px;
+    object-fit: contain;
+    margin: 15px auto 0px 15px;
+    background-size: contain;
+    display: inline-block;
+}
+
+.popup-area[dir="rtl"] #nortonLogo{
+  margin: 15px 15px 0px 15px;
+}
+
+.full-report
+{
+    float: right;
+    margin:11px 11px 11px 0px;
+    width: auto;
+    height: 32px;
+    background-color: #fff;
+    display: inline-block;
+    cursor: pointer;
+    border: none;
+ }
+
+ .popup-area.dark .full-report {
+  background-color: #242424;
+ }
+
+ .popup-area[dir="rtl"] .full-report
+ {
+   float: left;
+   margin: 11px 11px 11px -127px;
+ }
+
+ .full-report-text:hover {
+    text-decoration: underline;
+ }
+
+ .full-report-text
+ {
+  font-family: 'Inter-Bold';
+  font-size: 20px;
+  line-height: 32px;
+  color: #0F71F0;
+    padding: 0 4px 9px 22px;
+ }
+
+
+ .content-area
+ {
+    height:0px;
+ }
+
+div.content-area[data-state='']{
+    visibility: collapse;
+}
+
+div.content-area:not([data-state='']) {
+    visibility: visible;
+}
+
+div.content-area[data-state="Warning"] span.status-image
+{
+    background-image: url('../../images/ic-warning.png');
+    z-index:100;
+}
+
+div.content-area[data-state="Warning"] div.status
+{
+    background-color: #c81a00;
+}
+
+div.content-area[data-state="Warning"] div.threats
+{
+    background-color: #b90e21;
+}
+
+div.content-area[data-state="Warning"] span.result-span-safe,
+div.content-area[data-state="Warning"] span.result-span-secure,
+div.content-area[data-state="Warning"] span.result-span-caution,
+div.content-area[data-state="Warning"] span.result-span-untested,
+div.content-area[data-state="Warning"] span.result-span-suspicious
+
+{
+    display:none;
+}
+
+div.content-area[data-state="Safe"] span.status-image
+{
+    background-image: url('../../images/ic-safe.svg');
+    z-index:100;
+}
+
+div.content-area[data-state="Safe"] div.status
+{
+    background-color: #007644;
+}
+
+div.content-area[data-state="Safe"] div.threats
+{
+  background-color: #337c34;
+}
+
+div.content-area[data-state="Safe"] span.result-span-unsafe,
+div.content-area[data-state="Safe"] span.result-span-secure,
+div.content-area[data-state="Safe"] span.result-span-caution,
+div.content-area[data-state="Safe"] span.result-span-untested,
+div.content-area[data-state="Safe"] span.result-span-suspicious
+
+{
+    display:none;
+}
+
+div.content-area[data-state="Safe"] span.threat-count
+{
+    content:'0';
+}
+
+div.content-area[data-state="Caution"] span.status-image
+{
+    background-image: url('../../images/ic-caution.svg');
+     background-size: 72px 68px;
+    height:68px;
+    z-index:100;
+}
+
+div.content-area[data-state="Caution"] div.status
+{
+    background-color: #B85C00;
+}
+
+div.content-area[data-state="Caution"] div.threats
+{
+  background-color: #fc6120;
+}
+
+div.content-area[data-state="Caution"] span.result-span-safe,
+div.content-area[data-state="Caution"] span.result-span-secure,
+div.content-area[data-state="Caution"] span.result-span-unsafe,
+div.content-area[data-state="Caution"] span.result-span-untested,
+div.content-area[data-state="Caution"] span.result-span-suspicious
+{
+    display:none;
+}
+
+div.content-area[data-state="Suspicious"] span.status-image
+{
+    background-image: url('../../images/ic-warning.png');
+    z-index:100;
+}
+
+div.content-area[data-state="Suspicious"] div.status
+{
+    background-color: #B85C00;
+}
+
+div.content-area[data-state="Suspicious"] div.threats
+{
+  background-color: #fc6120;
+}
+
+div.content-area[data-state="Suspicious"] span.result-span-safe,
+div.content-area[data-state="Suspicious"] span.result-span-secure,
+div.content-area[data-state="Suspicious"] span.result-span-caution,
+div.content-area[data-state="Suspicious"] span.result-span-unsafe,
+div.content-area[data-state="Suspicious"] span.result-span-untested
+{
+    display:none;
+}
+
+div.content-area[data-state="Untested"] span.status-image
+{
+    background-image: url('../../images/ic-untested.svg');
+    z-index:100;
+}
+
+div.content-area[data-state="Untested"] div.status
+{
+    background-color: #808080
+}
+
+div.content-area[data-state="Untested"] div.threats
+{
+  background-color: #666666;
+}
+
+div.content-area[data-state="Untested"] span.result-span-safe,
+div.content-area[data-state="Untested"] span.result-span-secure,
+div.content-area[data-state="Untested"] span.result-span-caution,
+div.content-area[data-state="Untested"] span.result-span-suspicious,
+div.content-area[data-state="Untested"] span.result-span-unsafe,
+div.content-area[data-state="Untested"] div.total-threat-label,
+div.content-area[data-state="Untested"] span.threat-count
+{
+    display:none;
+}
+
+div.content-area[data-state="Untested"] div#untestedText
+{
+    display:block;
+}
+
+/*Footer image css*/
+div#safeWebPopupFooter
+{
+    height:50px;
+    width:280px;
+    position:absolute;
+    top:346px;
+}
+
+div#footerImageDiv
+{
+    height:36px;
+    width:100%;
+    position:relative;
+    top:17px;
+    left:0;
+}
+img#footerImage
+{
+    width:100%;
+    height:32px;
+}
+
+
+div.content-area div#Rating
+{
+    min-width:80px;
+    /*width: max-intrinsic;
+    height: max-intrinsic;*/
+    padding:82px 0 0 0;
+    margin-bottom: 15px;
+    background-position: top center;
+    background-size: 80px 82px;
+    background-repeat: no-repeat;
+}
+
+
+p#RatingText
+{
+    margin: 0;
+    padding-top:10px;
+    font: 14px;
+    font-weight: bold;
+    /*width:max-intrinsic;*/
+}
+
+
+div#threats
+{
+    display: none;
+}
+
+div#threats[data-show="yes"]
+{
+    margin-top: 5px;
+    font-size: 12px;
+    display: block;
+}
+
+div.threats-table
+{
+    display: none;
+}
+
+div.threats-table[data-show="yes"]
+{
+    display: block;
+}
+
+div.Line
+{
+    white-space:nowrap;
+    min-height:10px;
+    padding: 2px 0 1px 0 ;
+}
+
+span.threat_text,
+span.count,
+span.none
+{
+    margin-top: 2px;
+    white-space: nowrap;
+    display:inline-block;
+}
+
+span.count,
+span.none
+{
+    text-align: center;
+    min-width: 40px;
+    font-weight: bold;
+}
+
+span.none
+{
+    color: gray;
+}
+
+span.threat_text
+{
+    width: 160px ;
+    min-width: 160px ;
+    color: WindowText;
+}
+
+/*div > span + span
+{
+    padding-left: 14px;
+    text-align: center;
+    color: WindowText;
+}*/
+
+/*
+.status
+{
+flow : horizontal;
+}
+*/
+
+.popup-area.dark .bottom {
+  background-color: #242424;
+  border-top: 1px solid #C1BFB8;
+}
+
+.popup-area.dark .full-report-text {
+  color: #3F8DF3;
+}
+
+.popup-area.dark #nortonLogo {
+  background-image: url("../../images/norton-logo-dark.svg");
+}
+
+.popup-area.dark div.content-area[data-state="Warning"] div.status {
+  background-color: #D40404;
+}
+
+.popup-area.dark div.content-area[data-state="Warning"] div.threats {
+  background-color: #D40404;
+}
+
+.popup-area.dark div.content-area[data-state="Caution"] div.status {
+    background-color: #E07000;
+}
+
+.popup-area.dark div.content-area[data-state="Caution"] div.threats
+{
+  background-color: #E07000;
+}
+
+.popup-area.dark div.content-area[data-state="Safe"] div.status {
+  background-color: #16A761;
+}
+
+.popup-area.dark div.content-area[data-state="Safe"] div.threats
+{
+background-color: #16A761;
+}
+
+.popup-area.dark div.content-area[data-state="Untested"] div.status {
+  background-color: #999997;;
+}
+
+.popup-area.dark div.content-area[data-state="Untested"] div.threats
+{
+background-color: #999997;;
+}
+
+.popup-area.dark .pop-arrow-middle-left-border-color-Safe {
+  border-right: 20px solid #16A761;
+}
+
+.popup-area.dark .pop-arrow-middle-right-border-color-Safe {
+  border-left: 20px solid #16A761;
+}
+
+.popup-area.dark .pop-arrow-middle-left-border-color-Caution, .pop-arrow-middle-left-border-color-Suspicious {
+  border-right: 20px solid #E07000;
+}
+
+.popup-area.dark .pop-arrow-middle-right-border-color-Caution, .pop-arrow-middle-right-border-color-Suspicious {
+  border-left: 20px solid #E07000;
+}
+
+.popup-area.dark .pop-arrow-middle-left-border-color-Warning {
+  border-right: 20px solid #D40404;
+}
+
+.popup-area.dark .pop-arrow-middle-right-border-color-Warning {
+  border-left: 20px solid #D40404;
+}
+
+.popup-area.dark .pop-arrow-middle-left-border-color-Untested {
+  border-right: 20px solid #999997;
+}
+
+.popup-area.dark .pop-arrow-middle-right-border-color-Untested {
+  border-left: 20px solid #999997;
+}
+
+.popup-area.dark .pop-arrow-bottom-right-border-color-Safe {
+  border-right: 20px solid #16A761;
+}
+
+.popup-area.dark .pop-arrow-bottom-right-border-color-Caution {
+  border-right: 20px solid #E07000;
+}
+
+.popup-area.dark .pop-arrow-bottom-right-border-color-Warning {
+  border-right: 20px solid #D40404;
+}
+
+.popup-area.dark .pop-arrow-bottom-right-border-color-Untested {
+  border-right: 20px solid #999997;
+}
