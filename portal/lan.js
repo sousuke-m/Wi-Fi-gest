@@ -3,8 +3,8 @@
     $.su.CHAR = {
         PROTAL: {
             SUCCESS: '正常完了',
-            FAILED: 'ログインできません。後でもう一度お試しください。',
-            WELCOME: 'こんにちは！',
+            FAILED: 'このサイトはデモのためログインできません。',
+            WELCOME: 'ようこそ',
             PASSWORD: 'パスワード',
             LOGIN: 'ログイン',
             TERMS_OF_USE: '利用規約',
